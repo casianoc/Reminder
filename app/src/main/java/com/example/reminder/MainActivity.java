@@ -12,10 +12,18 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
 
     Intent intent;
+
+    DBHandler dbHandler;
+
+    Reminders remindersAdapter;
+
+    ListView remindersListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +32,17 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // initialize the dbHandler
+        dbHandler = new DBHandler(this, null);
 
+        // initialize the ListView
+        remindersListView = (ListView) findViewById(R.id.remindersListView);
+
+        // initialize the shopperList cursor adapter
+        remindersAdapter = new Reminders(this, dbHandler.getReminders(), 0);
+
+        // set shopping lists cursor adapter
+        remindersListView.setAdapter(remindersAdapter);
     }
 
     @Override

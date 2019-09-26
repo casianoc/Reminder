@@ -31,6 +31,8 @@ public class AddReminder extends AppCompatActivity {
 
     Calendar calendar;
 
+    DBHandler dbHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +40,7 @@ public class AddReminder extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-// initialize EditTexts
+        // initialize EditTexts
         nameEditText = (EditText) findViewById(R.id.nameEditText);
         dateEditText = (EditText) findViewById(R.id.dateEditText);
         typeEditText = (EditText) findViewById(R.id.typeEditText);
@@ -75,6 +77,8 @@ public class AddReminder extends AppCompatActivity {
             }
         });
 
+        dbHandler = new DBHandler(this, null);
+
     }
 
     public void updateDueDate(){
@@ -88,7 +92,7 @@ public class AddReminder extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_add_reminder, menu);
         return true;
     }
 
@@ -112,16 +116,17 @@ public class AddReminder extends AppCompatActivity {
         }
     }
     public void createReminder(MenuItem menuItem){
-// get data input to EditTexts and store it in Strings
-        String name = nameEditText.getText().toString();
+        // get data input to EditTexts and store it in Strings
+        String title = nameEditText.getText().toString();
         String date = dateEditText.getText().toString();
         String type = typeEditText.getText().toString();
 
-        if (name.trim().equals("") || type.trim().equals("") || date.trim().equals("")){
-            Toast.makeText(this, "Please enter a name, store, and date!", Toast.LENGTH_LONG).show();
+        if (title.trim().equals("") || type.trim().equals("") || date.trim().equals("")){
+            Toast.makeText(this, "Please enter a title, date and type!", Toast.LENGTH_LONG).show();
         } else {
+            dbHandler.addShoppingList(title, date, type);
             // if none of the strings are empty, display Shopping List Added Toast
-            Toast.makeText(this, "Shopping List Added!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Reminder Added!", Toast.LENGTH_LONG).show();
         }
     }
 
