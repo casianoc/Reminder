@@ -7,4 +7,13 @@
     <string name="type">Type</string>
     <string name="date">Date</string>
     <string name="name">Name</string>
+    <string name="title_activity_view_reminder">View Reminder</string>
+    <string name="action_add_reminder_item">Add Reminder Item</string>
+    <string-array name="quantities">
+        <item></item>
+        <item>School</item>
+        <item>Work</item>
+        <item>Personal</item>
+        <item>Medical</item>
+    </string-array>
 </resources>

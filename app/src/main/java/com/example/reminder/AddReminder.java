@@ -4,34 +4,38 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
-public class AddReminder extends AppCompatActivity {
+public class AddReminder extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     Intent intent;
 
     EditText nameEditText;
     EditText dateEditText;
-    EditText typeEditText;
+    Spinner typeSpinner;
 
     Calendar calendar;
 
     DBHandler dbHandler;
+
+    String type;
+    Date dateCompare;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +47,18 @@ public class AddReminder extends AppCompatActivity {
         // initialize EditTexts
         nameEditText = (EditText) findViewById(R.id.nameEditText);
         dateEditText = (EditText) findViewById(R.id.dateEditText);
-        typeEditText = (EditText) findViewById(R.id.typeEditText);
+
+        typeSpinner = (Spinner) findViewById(R.id.typeSpinner);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.quantities, android.R.layout.simple_spinner_item);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        typeSpinner.setAdapter(adapter);
+
+        typeSpinner.setOnItemSelectedListener(this);
+
+        dbHandler = new DBHandler(this, null);
 
         //initialize calendar
         calendar = Calendar.getInstance();
@@ -63,6 +78,7 @@ public class AddReminder extends AppCompatActivity {
                 updateDueDate();
             }
         };
+
 
         // registered an OnClickListener on the dateEditText
         dateEditText.setOnClickListener(new View.OnClickListener(){
@@ -88,6 +104,15 @@ public class AddReminder extends AppCompatActivity {
 
         // apply SimpleDateFormat to date in calendar and set it in the date EditText
         dateEditText.setText(simpleDateFormat.format(calendar.getTime()));
+
+        calendar.setTime(dateCompare);
+        simpleDateFormat.format(dateCompare);
+
+        if(dateCompare.compareTo(){
+
+        }
+
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -119,15 +144,23 @@ public class AddReminder extends AppCompatActivity {
         // get data input to EditTexts and store it in Strings
         String title = nameEditText.getText().toString();
         String date = dateEditText.getText().toString();
-        String type = typeEditText.getText().toString();
 
-        if (title.trim().equals("") || type.trim().equals("") || date.trim().equals("")){
+        if (title.trim().equals("") || type.equals("") || date.trim().equals("")){
             Toast.makeText(this, "Please enter a title, date and type!", Toast.LENGTH_LONG).show();
         } else {
             dbHandler.addShoppingList(title, date, type);
-            // if none of the strings are empty, display Shopping List Added Toast
+            // if none of the strings are empty, display reminder list Added Toast
             Toast.makeText(this, "Reminder Added!", Toast.LENGTH_LONG).show();
         }
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+        type = adapterView.getItemAtPosition(position).toString();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 }

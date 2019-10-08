@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Reminders extends CursorAdapter {
 
@@ -33,9 +34,5 @@ public class Reminders extends CursorAdapter {
                 setText(cursor.getString(cursor.getColumnIndex("date")));
         ((TextView) view.findViewById(R.id.typeTextView)).
                 setText(cursor.getString(cursor.getColumnIndex("type")));
-
-        SimpleDateFormat formatter = new SimpleDateFormat("yyy-MM-dd");
-
-        if (type <= )
     }
 }

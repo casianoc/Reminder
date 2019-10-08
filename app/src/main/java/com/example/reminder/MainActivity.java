@@ -24,6 +24,13 @@ public class MainActivity extends AppCompatActivity {
     Reminders remindersAdapter;
 
     ListView remindersListView;
+    long id;
+
+    Bundle bundle;
+
+    ReminderListItems reminderListItemsAdapter;
+
+    ListView itemListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +50,19 @@ public class MainActivity extends AppCompatActivity {
 
         // set shopping lists cursor adapter
         remindersListView.setAdapter(remindersAdapter);
+
+        id = bundle.getLong("_id");
+
+        dbHandler = new DBHandler(this, null);
+
+        String reminderName = dbHandler.getReminderListName((int)id);
+
+        this.setTitle(reminderListName);
+
+        itemListView = (ListView) findViewById(R.id.itemListView);
+
+        
+
     }
 
     @Override
